@@ -159,6 +159,9 @@ dt.register_storage("export_pdf", _("export thumbnails to pdf"),
     \usepackage{graphicx}
     \pagestyle{empty}
     \parindent0pt
+    \usepackage{xcolor}
+    \pagecolor{black}
+    \color{white}
     \usepackage{geometry}
     \geometry{]] .. paper_widget.value .. [[,left=5mm,right=5mm, top=5mm, bottom=5mm}
     \begin{document}
