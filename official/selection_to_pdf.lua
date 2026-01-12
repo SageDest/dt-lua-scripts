@@ -80,14 +80,23 @@ local no_of_thumbs_widget = dt.new_widget("slider")
     soft_max = 10,    -- The soft maximum value for the slider, the slider can't go beyond this point
     hard_min = 1,     -- The hard minimum value for the slider, the user can't manually enter a value beyond this point
     hard_max = 10,    -- The hard maximum value for the slider, the user can't manually enter a value beyond this point
-    value = 4         -- The current value of the slider
+    value = 4,        -- The current value of the slider
+    step = 1,         -- Keeps the value to whole numbers
+    digits = 0
 }
+local paper_widget = dt.new_widget("combobox"){
+    label = _("page type"),
+    tooltip = ("the size of the page to create the pdf with"),
+    "letterpaper","a4paper","a5paper"
+}
+
 local widget = dt.new_widget("box") {
     orientation = horizontal,
     dt.new_widget("label"){label = _("title:")},
     title_widget,
     dt.new_widget("label"){label = _("thumbnails per row:")},
-    no_of_thumbs_widget
+    no_of_thumbs_widget,
+    dt.new_widget("combobox"),paper_widget
 }
 
 local ending = [[
@@ -146,12 +155,12 @@ dt.register_storage("export_pdf", _("export thumbnails to pdf"),
     width = (1 / thumbs_per_line) - 0.01
 
     local preamble = [[
-    \documentclass[a4paper,10pt]{article}
+    \documentclass[]] .. paper_widget.value .. [[,10pt]{article}
     \usepackage{graphicx}
     \pagestyle{empty}
     \parindent0pt
     \usepackage{geometry}
-    \geometry{a4paper,left=5mm,right=5mm, top=5mm, bottom=5mm}
+    \geometry{]] .. paper_widget.value .. [[,left=5mm,right=5mm, top=5mm, bottom=5mm}
     \begin{document}
     {\Large\bfseries ]] .. my_title .. [[} \\
     \bigskip\bigskip
