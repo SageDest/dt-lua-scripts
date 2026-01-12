@@ -177,14 +177,30 @@ dt.register_storage("export_pdf", _("export thumbnails to pdf"),
         error(errmsg)
       end
       my_write(latexfile, preamble)
+
+      local sortable_list = {}
+      for img_object, file_path in pairs(image_table) do
+          -- Create an entry that stores both the object and its path
+          table.insert(sortable_list, { 
+              image = img_object, 
+              file_path = file_path 
+          })
+      end  
+      
+      table.sort(sortable_list, function(a, b)
+          -- Sort by capture time in ascending order (oldest first)
+          return a.image.exif_datetime_taken < b.image.exif_datetime_taken
+      end)
+      
       local i = 1
-      for img, file in pairs(image_table) do
-         thumbnail(latexfile, i, img, file)
-         if i % thumbs_per_line == 0  then
+      for _, entry in ipairs(sortable_list) do
+         thumbnail(latexfile, i, entry.image, entry.file_path)
+          if i % thumbs_per_line == 0 then
             my_write(latexfile, "\n\\bigskip\n")
          end
          i = i + 1
       end
+
       my_write(latexfile,ending)
       latexfile:close()
 
