@@ -128,11 +128,12 @@ local function thumbnail(latexfile,i,image,file)
   --  fact is that latex will get confused if the filename has multiple dots.
   --  so \includegraphics{file.01.jpg} wont work. We need to output the filename
   --  and extention separated, e.g: \includegraphics{{file.01}.jpg}
-
-  local filenoext = string.gsub(file, "(.*)(%..*)", "%1")
-  local ext = string.gsub(file, "(.*)(%..*)", "%2")
+  local filenoext = string.gsub(title, "(.*)(%..*)", "%1") 
+  --dt.library.filename_from_path(file)
+  -- 
+  local ext = string.gsub(title, "(.*)(%..*)", "%2")
   my_write(latexfile,"\\begin{minipage}[b]{"..width.."\\textwidth}\n")
-  my_write(latexfile,"\\includegraphics[width=\\textwidth]{{"..filenoext.."}"..ext.."}\\newline\n")
+  my_write(latexfile,"\\includegraphics[width=\\textwidth]{{"..filenoext.."}}\\newline\n")
   my_write(latexfile,"\\centering{"..i..": \\verb|"..title.."|}\n")
   my_write(latexfile,"\\end{minipage}\\quad\n")
 end
