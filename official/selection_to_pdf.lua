@@ -59,8 +59,8 @@ script_data.metadata = {
   help = "https://docs.darktable.org/lua/stable/lua.scripts.manual/scripts/official/selection_to_pdf"
 }
 
-script_data.destroy = nil -- function to destory the script
-script_data.destroy_method = nil -- set to hide for libs since we can't destroy them commpletely yet
+script_data.destroy = nil -- function to destroy the script
+script_data.destroy_method = nil -- set to hide for libs since we can't destroy them completely yet
 script_data.restart = nil -- how to restart the (lib) script after it's been hidden - i.e. make it visible again
 script_data.show = nil -- only required for libs since the destroy_method only hides them
 
@@ -181,7 +181,7 @@ dt.register_storage("export_pdf", _("export thumbnails to pdf"),
       local command = "pdflatex -halt-on-error -output-directory "..dir.." "..locfile
       local result = dt.control.execute(command)
       if result ~= 0 then
-        dt.print(_("problem running pdflatex")) -- this one is probably usefull to the user
+        dt.print(_("problem running pdflatex")) -- this one is probably useful to the user
         error("Problem running "..command)
       end
 
